@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+message Response {
+    int32 status = 1;
+    string message = 2;
+    int32 respcode = 3;
+}
+
+message LoggerDetails {
+    string  requestId = 1;
+    int32  code = 2;
+    string moduleName = 3;
+    string message = 4;
+    string request = 5;
+    string response = 6;
+    string params = 7;
+}
+
+enum LOG_LEVEL {
+    INFO = 0;
+    WARN = 1;
+    ERROR = 2;
+    DANGER = 3;
+}
+
+message LoggerTypeDetails {
+    string  requestId = 1;
+    int32  code = 2;
+    string moduleName = 3;
+    string message = 4;
+    string request = 5;
+    string response = 6;
+    string params = 7;
+    LOG_LEVEL logLevel= 8;
+}
+
+message RequestId {
+    string requestId = 1;
+}
+
+message Empty {}
+
+service Logger {
+    rpc setRequestId(RequestId) returns (RequestId) {}
+    rpc getRequestId(Empty) returns (RequestId) {}
+    rpc log(LoggerTypeDetails) returns (Response) {}
+    rpc info(LoggerDetails) returns (Response) {}
+    rpc warn(LoggerDetails) returns (Response) {}
+    rpc error(LoggerDetails) returns (Response) {}
+    rpc danger(LoggerDetails) returns (Response) {}
+}
